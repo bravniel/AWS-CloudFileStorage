@@ -86,8 +86,7 @@ exports.uploadAndAddImageToUser = async (req, res) => {
 exports.getAllUserImages = async (req, res) => {
   try {
     const populatedUser = await req.user
-      .populate('images.image')
-      .execPopulate();
+      .populate('images.image');
     const userImages = populatedUser.images;
     res.send(userImages);
   } catch (err) {

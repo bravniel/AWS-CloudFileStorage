@@ -1,11 +1,11 @@
 const AWS = require('aws-sdk');
-const { S3Client } = require('@aws-sdk/client-s3');
+//const { S3Client } = require('@aws-sdk/client-s3');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 
 // const s3 = new AWS.S3({ region: process.env.AWS_REGION });
 
-const s3 = new S3Client({
+const s3 = new AWS.S3({
   region: process.env.AWS_REGION,
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -28,7 +28,9 @@ const fileStorage = multerS3({
     cb(null, { fieldName: file.fieldname });
   },
   key: (req, file, cb) => {
-    const fileName = `${req.user._id}/${new Date().getTime()}-${file.originalname}`;
+    const fileName = `${req.user._id}/${new Date().getTime()}-${
+      file.originalname
+    }`;
     cb(null, fileName);
   },
 });
@@ -53,13 +55,9 @@ const getImageFromS3 = async (req, res, next) => {
 
 const deleteImageFromS3 = async (req, res, next) => {
   const Key = req.body.key;
+  console.log('deleteImageFromS3 : Key -> ', Key);
   try {
-    await s3
-      .deleteObject({
-        Key,
-        Bucket: bucket,
-      })
-      .promise();
+    await s3.deleteObject({Key,Bucket: bucket,}).promise();
     next();
   } catch (err) {
     console.log(err);

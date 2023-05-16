@@ -26,18 +26,18 @@ router.post('/users/logout', userAuth, logout);
 // -------------------------------------------------------------------------------
 
 router.post(
-  '/upload-image',
+  '/users/upload-image',
   userAuth,
   uploadImageToS3,
   uploadAndAddImageToUser
 );
 
-router.get('/get-images', userAuth, getAllUserImages);
+router.get('/users/get-images', userAuth, getAllUserImages);
 
-router.get('/get-image', getImageFromS3, getUserImage);
+router.get('/users/get-image', getImageFromS3, getUserImage);
 
 router.delete(
-  '/delete-image',
+  '/users/delete-image',
   userAuth,
   deleteImageFromS3,
   deleteImageFromUser
